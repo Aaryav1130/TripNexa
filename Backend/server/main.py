@@ -51,9 +51,16 @@ AI_PROMPT = '''
 Generate a Travel Plan for Location: {location}, for {totalDays} days for {companions} companions with a {budget} budget.
 You MUST return the response strictly in JSON format containing EXACTLY these three top-level keys:
 1. "tripDetails": An object containing basic info about the trip.
-2. "hotelOptions": An array of hotel objects (each with hotelName, hotelAddress, price, hotelImageUrl, geoCoordinates, rating, description).
+2. "hotelOptions": An array of EXACTLY 15 unique hotel objects. Each object MUST have:
+   - "hotelName": (string) The name of the hotel
+   - "hotelAddress": (string) The full address
+   - "pricePerNight": (integer) ACCURATE price STRICTLY converted to Indian Rupees (INR) as a raw integer (e.g. 16500) regardless of the destination. DO NOT USE STRINGS OR SYMBOLS
+   - "hotelImageUrl": (string) image url
+   - "geoCoordinates": (string) coordinates
+   - "ratings": (number) a float like 4.5, DO NOT USE STRINGS
+   - "description": (string) brief description
 3. "itinerary": An array or object detailing the daily schedule (with placeName, placeDetails, placeImageUrl, geoCoordinates, ticketPricing, timeTravel, bestTimeToVisit).
-Do not include any text outside the JSON.
+Do not include any text outside the JSON. Ensure pricing makes logical sense for the {budget} budget in {location} when converted to INR.
 '''
 @app.post("/api/trips/generate")
 async def generate_trip(trip_req: schemas.TripCreate, db: Session = Depends(get_db)):
