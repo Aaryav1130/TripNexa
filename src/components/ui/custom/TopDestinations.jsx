@@ -26,7 +26,7 @@ const destinations = [
   {
     name: "Chennai",
     accommodations: "2,832 accommodations",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Chennai_Central.jpg/800px-Chennai_Central.jpg"
+    image: "https://images.unsplash.com/photo-1616843413587-9e3a37f7bbd8?q=80&w=400&auto=format&fit=crop"
   },
   {
     name: "Goa",
