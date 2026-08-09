@@ -6,6 +6,26 @@ import uuid
 
 Base = declarative_base()
 
+class User(Base):
+    __tablename__ = "users"
+
+    email = Column(String, primary_key=True, index=True)
+    name = Column(String, nullable=True)
+    picture = Column(String, nullable=True)
+    currency = Column(String, default="INR")
+    budget_style = Column(String, default="Moderate")
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class FavoritePlace(Base):
+    __tablename__ = "favorite_places"
+
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_email = Column(String, index=True, nullable=False)
+    place_name = Column(String, nullable=False)
+    place_details = Column(JSONB, nullable=False) # Store the whole hotel/activity object
+    place_type = Column(String, nullable=False) # 'hotel' or 'activity'
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
 class Chat(Base):
     __tablename__ = "chats"
 

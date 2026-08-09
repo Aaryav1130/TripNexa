@@ -2,19 +2,42 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GetPlaceDetails } from '../../services/GlobalApis';
 import ImageCarousel from '@/components/ui/custom/ImageCarousel';
-import { MapPin, Clock, Ticket, Navigation } from 'lucide-react';
+import { MapPin, Clock, Ticket, Navigation, Heart } from 'lucide-react';
+import axios from 'axios';
 
 const Photo_Ref_Url = 'https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=1000&maxWidthPx=1000&key='+import.meta.env.VITE_GOOGLE_PLACE_KEY;
 
 // Sub-component to handle fetching and maintaining state for EACH activity individually
 function PlaceActivityCard({ activity, index, totalActivities }) {
   const [photos, setPhotos] = useState([]);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
     if (activity?.placeName) {
       GetPlacePhoto();
     }
   }, [activity]);
+
+  const addToFavorites = async (e) => {
+    e.preventDefault(); 
+    e.stopPropagation();
+    
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return alert("Please log in to save favorites");
+    
+    try {
+      if (isFavorited) return; 
+      await axios.post("http://localhost:8000/api/favorites/add", {
+        user_email: user.email,
+        place_name: activity?.placeName,
+        place_details: activity,
+        place_type: "Activity"
+      });
+      setIsFavorited(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const GetPlacePhoto = async () => {
     try {
@@ -63,6 +86,14 @@ function PlaceActivityCard({ activity, index, totalActivities }) {
           {/* Carousel Section */}
           <div className='w-full sm:w-[220px] h-[200px] sm:h-auto shrink-0 relative bg-slate-100'>
             <ImageCarousel photos={photos} className='w-full h-full object-cover' />
+            
+            {/* Favorite Button */}
+            <button 
+              onClick={addToFavorites}
+              className={`absolute top-3 left-3 p-2 rounded-full shadow-md z-20 transition-all ${isFavorited ? 'bg-red-50 text-red-500 border border-red-100' : 'bg-white/90 backdrop-blur-sm text-slate-400 hover:text-red-500 border border-white/50 hover:bg-white'}`}
+            >
+              <Heart size={16} className={isFavorited ? 'fill-red-500' : ''} />
+            </button>
           </div>
 
           {/* Details Section */}

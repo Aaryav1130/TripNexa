@@ -2,19 +2,40 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GetPlaceDetails } from "../../services/GlobalApis";
 import ImageCarousel from "@/components/ui/custom/ImageCarousel";
-import { MapPin, Sparkles, Tag, CheckCircle2 } from "lucide-react";
+import { MapPin, Sparkles, Tag, CheckCircle2, Heart } from "lucide-react";
+import axios from "axios";
 
 export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
   const Photo_Ref_Url =
     "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=1000&maxWidthPx=1000&key=" +
     import.meta.env.VITE_GOOGLE_PLACE_KEY;
   const [photos, setPhotos] = useState([]);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
-    if (hotel) {
-      GetPlacePhoto();
-    }
+    hotel?.hotelName && GetPlacePhoto();
   }, [hotel]);
+
+  const addToFavorites = async (e) => {
+    e.preventDefault(); // Prevent link click
+    e.stopPropagation();
+    
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return alert("Please log in to save favorites");
+    
+    try {
+      if (isFavorited) return; // In a full app, we'd handle toggle remove here
+      await axios.post("http://localhost:8000/api/favorites/add", {
+        user_email: user.email,
+        place_name: hotel?.hotelName,
+        place_details: hotel,
+        place_type: "Hotel"
+      });
+      setIsFavorited(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const GetPlacePhoto = async () => {
     try {
@@ -70,9 +91,17 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
         {/* Left Section: Image Carousel */}
         <div className="w-full sm:w-[260px] h-[220px] shrink-0 relative bg-slate-100">
           <ImageCarousel photos={photos} className="w-full h-full object-cover" />
-          <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
+          <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs font-bold px-2 py-0.5 rounded z-10 pointer-events-none">
             1/{Math.max(1, photos.length)}
           </div>
+          
+          {/* Favorite Button */}
+          <button 
+            onClick={addToFavorites}
+            className={`absolute top-3 right-3 p-2 rounded-full shadow-md z-20 transition-all ${isFavorited ? 'bg-red-50 text-red-500 border border-red-100' : 'bg-white/90 backdrop-blur-sm text-slate-400 hover:text-red-500 border border-white/50 hover:bg-white'}`}
+          >
+            <Heart size={16} className={isFavorited ? 'fill-red-500' : ''} />
+          </button>
         </div>
         
         {/* Middle Section: Details */}

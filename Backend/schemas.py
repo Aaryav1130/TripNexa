@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
+from datetime import datetime
 
 class LocationSchema(BaseModel):
     label: str
@@ -21,3 +22,14 @@ class TripResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    currency: Optional[str] = None
+    budget_style: Optional[str] = None
+
+class FavoritePlaceCreate(BaseModel):
+    user_email: str
+    place_name: str
+    place_details: Dict[str, Any]
+    place_type: str

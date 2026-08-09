@@ -133,6 +133,89 @@ async def get_user_trips(email: str, db: Session = Depends(get_db)):
         } for t in trips
     ]
 
+# --- USER PROFILE & SETTINGS APIs ---
+
+@app.get("/api/users/{email}")
+async def get_user(email: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user:
+        # Auto-create basic profile if it doesn't exist
+        new_user = models.User(email=email, name=email.split('@')[0])
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        user = new_user
+    
+    return {
+        "email": user.email,
+        "name": user.name,
+        "picture": user.picture,
+        "currency": user.currency,
+        "budget_style": user.budget_style
+    }
+
+@app.put("/api/users/{email}")
+async def update_user(email: str, user_update: schemas.UserUpdate, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user_update.name is not None:
+        user.name = user_update.name
+    if user_update.currency is not None:
+        user.currency = user_update.currency
+    if user_update.budget_style is not None:
+        user.budget_style = user_update.budget_style
+        
+    db.commit()
+    db.refresh(user)
+    return {"message": "User updated successfully"}
+
+# --- FAVORITES APIs ---
+
+@app.get("/api/favorites/{email}")
+async def get_favorites(email: str, db: Session = Depends(get_db)):
+    favorites = db.query(models.FavoritePlace).filter(models.FavoritePlace.user_email == email).all()
+    return [
+        {
+            "id": f.id,
+            "place_name": f.place_name,
+            "place_details": f.place_details,
+            "place_type": f.place_type
+        } for f in favorites
+    ]
+
+@app.post("/api/favorites/add")
+async def add_favorite(fav_req: schemas.FavoritePlaceCreate, db: Session = Depends(get_db)):
+    # Check if already favorited
+    existing = db.query(models.FavoritePlace).filter(
+        models.FavoritePlace.user_email == fav_req.user_email,
+        models.FavoritePlace.place_name == fav_req.place_name
+    ).first()
+    
+    if existing:
+        return {"message": "Already in favorites", "id": existing.id}
+        
+    new_fav = models.FavoritePlace(
+        user_email=fav_req.user_email,
+        place_name=fav_req.place_name,
+        place_details=fav_req.place_details,
+        place_type=fav_req.place_type
+    )
+    db.add(new_fav)
+    db.commit()
+    db.refresh(new_fav)
+    return {"message": "Added to favorites", "id": new_fav.id}
+
+@app.delete("/api/favorites/remove/{fav_id}")
+async def remove_favorite(fav_id: str, db: Session = Depends(get_db)):
+    fav = db.query(models.FavoritePlace).filter(models.FavoritePlace.id == fav_id).first()
+    if fav:
+        db.delete(fav)
+        db.commit()
+        return {"message": "Removed from favorites"}
+    return {"message": "Not found"}
+
 # Keep chat logic for the "Take AI Help" feature
 @app.post("/chat")
 async def chat_with_ai(request: Request): 
