@@ -1,5 +1,6 @@
 import './App.css'
 import Hero from './components/ui/custom/Hero';
+import TopDestinations from './components/ui/custom/TopDestinations';
 import { createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom'
 import CreateTrip from './create-trip/index.jsx'
 import Viewtrip from './view-trip/[tripId]/index.jsx'
@@ -10,7 +11,12 @@ function App() {
   return (
     <div className="min-h-screen text-gray-900 bg-white">
       <Routes>
-        <Route path="/" element={<Hero/>} />
+        <Route path="/" element={
+          <div className="w-full overflow-x-hidden">
+            <Hero/>
+            <TopDestinations />
+          </div>
+        } />
         <Route path="/create-trip" element={<CreateTrip />} />
         <Route path="/view-trip/:tripId" element={<Viewtrip />} />
         <Route path="/my-trips" element={<MyTrips />} />
