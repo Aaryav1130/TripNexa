@@ -71,7 +71,7 @@ export default function TopDestinations() {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {destinations.map((dest, index) => (
-              <Link to="/create-trip" key={index} className="flex-none w-[200px] sm:w-[240px] snap-start group/card cursor-pointer">
+              <Link to={`/create-trip?destination=${encodeURIComponent(dest.name)}`} key={index} className="flex-none w-[200px] sm:w-[240px] snap-start group/card cursor-pointer">
                 <div className="flex flex-col gap-3">
                   <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200">
                     <img 
