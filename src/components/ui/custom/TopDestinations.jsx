@@ -51,7 +51,7 @@ export default function TopDestinations() {
   };
 
   return (
-    <div className="w-full bg-white py-16 px-6 sm:px-10 lg:px-20">
+    <div className="w-full bg-[#F5F3ED] py-16 px-6 sm:px-10 lg:px-20">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-extrabold text-slate-800 mb-8 tracking-tight">Top destinations in India</h2>
         
