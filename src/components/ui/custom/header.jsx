@@ -48,11 +48,11 @@ export default function Header() {
         <img
           src="/logo.png"
           alt="Tripnexa Logo"
-          className="h-24 md:h-36 w-auto object-contain transition-transform hover:scale-105"
+          className="h-24 md:h-36 w-auto object-contain transition-transform hover:scale-105 -my-4 md:-my-10"
         />
       </Link>
 
-      <div className="flex items-center gap-6 md:-mt-4">
+      <div className="flex items-center gap-6 md:-mt-6">
         {user ? (
           <>
             <div className="hidden md:flex gap-6 items-center">
