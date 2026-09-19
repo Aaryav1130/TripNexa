@@ -48,7 +48,7 @@ export default function Header() {
         <img
           src="/logo.png"
           alt="Tripnexa Logo"
-          className="h-14 md:h-16 w-auto object-contain transition-transform hover:scale-105"
+          className="h-20 md:h-28 w-auto object-contain transition-transform hover:scale-105"
         />
       </Link>
 
