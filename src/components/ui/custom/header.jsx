@@ -5,7 +5,7 @@ import AuthModal from "../../../constants/authModel.jsx";
 import { auth } from "../../../constants/firebase.jsx";
 import { Link, useLocation } from "react-router-dom";
 
-import { User, LogOut, ChevronDown } from "lucide-react";
+import { User, LogOut, ChevronDown, Compass } from "lucide-react";
 
 export default function Header() {
   const [user, setUser] = useState(null);
@@ -44,12 +44,13 @@ export default function Header() {
 
   return (
     <div className={headerBgClass}>
-      <Link to="/" className="flex items-center no-underline">
-        <img
-          src="/logo.jpg"
-          alt="Tripnexa Logo"
-          className="h-16 w-16 rounded-md object-cover shadow-sm transition-transform hover:scale-105"
-        />
+      <Link to="/" className="flex items-center gap-2.5 no-underline group transition-transform hover:scale-105">
+        <div className="flex items-center justify-center text-[#e55934]">
+          <Compass size={28} strokeWidth={2} />
+        </div>
+        <span className={`text-3xl tracking-tight font-serif ${isHome ? 'text-white' : 'text-slate-900'}`}>
+          Trip.AI
+        </span>
       </Link>
 
       <div className="flex items-center gap-6">
