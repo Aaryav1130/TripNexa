@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Compass } from 'lucide-react';
 
 const destinations = [
   {
@@ -99,6 +99,17 @@ export default function TopDestinations() {
         </div>
       </div>
       
+      {/* Footer Line */}
+      <div className="w-full border-t border-[#e2dcd0] mt-16 py-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[#9a9182]">
+          <div className="flex items-center gap-2">
+            <Compass size={18} strokeWidth={1.5} />
+            <span className="font-serif font-medium text-lg text-slate-800 tracking-wide">Trip.AI</span>
+          </div>
+          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#b3aa9a]">Free forever. No credit card required.</p>
+        </div>
+      </div>
+
       <style dangerouslySetInnerHTML={{__html: `
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
