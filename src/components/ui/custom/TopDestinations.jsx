@@ -100,8 +100,8 @@ export default function TopDestinations() {
       </div>
       
       {/* Features Section */}
-      <div className="w-full mt-24 md:mt-40 px-6 sm:px-10 lg:px-20 max-w-7xl mx-auto">
-        <div className="border-t border-[#e2dcd0] pt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
+      <div className="w-full mt-12 md:mt-16 px-6 sm:px-10 lg:px-20 max-w-7xl mx-auto pb-12">
+        <div className="border-t border-[#e2dcd0] pt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0">
           <div className="lg:border-r border-[#e2dcd0] lg:pr-10 flex flex-col gap-3">
             <MapPin className="text-[#e55934]" size={20} strokeWidth={1.5} />
             <h3 className="font-serif text-xl text-slate-800">Real Places</h3>
@@ -122,17 +122,6 @@ export default function TopDestinations() {
             <h3 className="font-serif text-xl text-slate-800">AI-Powered</h3>
             <p className="text-[15px] text-slate-600 leading-relaxed">Personalized recommendations based on your interests and travel style.</p>
           </div>
-        </div>
-      </div>
-
-      {/* Footer Line */}
-      <div className="w-full border-t border-[#e2dcd0] mt-32 md:mt-48 pt-12 pb-24">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 flex flex-col md:flex-row justify-between items-center gap-4 text-[#9a9182]">
-          <div className="flex items-center gap-2">
-            <Compass size={18} strokeWidth={1.5} />
-            <span className="font-serif font-medium text-lg text-slate-800 tracking-wide">TripNexa</span>
-          </div>
-          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#b3aa9a]">Free forever. No credit card required.</p>
         </div>
       </div>
 
