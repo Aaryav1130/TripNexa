@@ -52,7 +52,7 @@ export default function Header() {
         />
       </Link>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 md:-mt-4">
         {user ? (
           <>
             <div className="hidden md:flex gap-6 items-center">
