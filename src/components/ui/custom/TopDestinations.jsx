@@ -100,11 +100,11 @@ export default function TopDestinations() {
       </div>
       
       {/* Footer Line */}
-      <div className="w-full border-t border-[#e2dcd0] mt-16 py-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[#9a9182]">
+      <div className="w-full border-t border-[#e2dcd0] mt-8 py-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[#9a9182]">
           <div className="flex items-center gap-2">
             <Compass size={18} strokeWidth={1.5} />
-            <span className="font-serif font-medium text-lg text-slate-800 tracking-wide">Trip.AI</span>
+            <span className="font-serif font-medium text-lg text-slate-800 tracking-wide">TripNexa</span>
           </div>
           <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#b3aa9a]">Free forever. No credit card required.</p>
         </div>
