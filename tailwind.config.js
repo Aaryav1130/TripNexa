@@ -11,18 +11,22 @@ module.exports = {
     		},
     		keyframes: {
     			'fade-in-up': {
-    				'0%': {
-    					opacity: '0',
-    					transform: 'translateY(20px)'
-    				},
-    				'100%': {
-    					opacity: '1',
-    					transform: 'translateY(0)'
-    				},
+    				'0%': { opacity: '0', transform: 'translateY(20px)' },
+    				'100%': { opacity: '1', transform: 'translateY(0)' },
+    			},
+    			'ken-burns': {
+    				'0%': { transform: 'scale(1)' },
+    				'100%': { transform: 'scale(1.05)' },
+    			},
+    			'shimmer': {
+    				'0%': { backgroundPosition: '200% 0' },
+    				'100%': { backgroundPosition: '-200% 0' },
     			}
     		},
     		animation: {
     			'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+    			'ken-burns': 'ken-burns 10s ease-out forwards',
+    			'shimmer': 'shimmer 3s infinite linear',
     		},
     		colors: {
     			background: 'hsl(var(--background))',
