@@ -130,10 +130,14 @@ export default function CreateTrip() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50/50 py-12 px-5 sm:px-10 md:px-32 lg:px-56 xl:px-72">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-fuchsia-50 py-12 px-5 sm:px-10 md:px-32 lg:px-56 xl:px-72 relative">
+      {/* Decorative blurred blobs for background texture */}
+      <div className="absolute top-20 left-0 w-96 h-96 bg-indigo-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob pointer-events-none"></div>
+      <div className="absolute top-20 right-20 w-96 h-96 bg-fuchsia-200/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000 pointer-events-none"></div>
+      <div className="absolute -bottom-32 left-40 w-96 h-96 bg-yellow-100/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-4000 pointer-events-none"></div>
       
-      {/* Header Section */}
-      <div className="text-center mb-16">
+      {/* Header Section (with relative z-index to sit above blobs) */}
+      <div className="text-center mb-16 relative z-10 pt-10">
         <h2 className="font-extrabold text-4xl md:text-5xl tracking-tight text-slate-900 mb-4">
           {prefilledDestination ? (
             <>
@@ -153,7 +157,7 @@ export default function CreateTrip() {
         </p>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-12">
+      <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-white/40 p-8 md:p-12 relative z-10">
         <div className="flex flex-col gap-10">
           
           {/* Location Search — only show if NOT pre-filled from destination card */}
