@@ -137,11 +137,11 @@ export default function CreateTrip() {
         <h2 className="font-extrabold text-4xl md:text-5xl tracking-tight text-slate-900 mb-4">
           {prefilledDestination ? (
             <>
-              Your Trip to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">{prefilledDestination}</span> 🏕️
+              Your Trip to <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-fuchsia-500">{prefilledDestination}</span> 🌍
             </>
           ) : (
             <>
-              Tell Us About Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Dream Trip</span> 🏕️
+              Tell Us About Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-fuchsia-500">Dream Trip</span> 🌍
             </>
           )}
         </h2>
@@ -160,10 +160,10 @@ export default function CreateTrip() {
           {!prefilledDestination && (
             <div className="group">
               <h2 className="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
-                <span className="bg-blue-100 text-blue-600 p-2 rounded-lg">📍</span> 
+                <span className="bg-indigo-100 text-indigo-600 p-2 rounded-lg">📍</span> 
                 Where would you like to explore?
               </h2>
-              <div className="border border-slate-200 rounded-xl shadow-sm transition-all focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
+              <div className="border border-slate-200 rounded-xl shadow-sm transition-all focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent">
                 <GooglePlacesAutocomplete
                   apiKey={import.meta.env.VITE_GOOGLE_PLACE_KEY}
                   selectProps={{
@@ -191,10 +191,10 @@ export default function CreateTrip() {
 
           {/* Pre-filled destination banner */}
           {prefilledDestination && (
-            <div className="flex items-center gap-4 p-5 bg-blue-50 rounded-2xl border border-blue-100">
-              <span className="bg-blue-600 text-white p-3 rounded-xl text-2xl">📍</span>
+            <div className="flex items-center gap-4 p-5 bg-indigo-50 rounded-2xl border border-indigo-100">
+              <span className="bg-indigo-500 text-white p-3 rounded-xl text-2xl">📍</span>
               <div>
-                <p className="text-sm font-bold text-blue-600 uppercase tracking-wider">Destination</p>
+                <p className="text-sm font-bold text-indigo-600 uppercase tracking-wider">Destination</p>
                 <h3 className="text-2xl font-extrabold text-slate-800">{prefilledDestination}</h3>
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function CreateTrip() {
           {/* Date Range Picker */}
           <div>
             <h2 className="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
-              <span className="bg-indigo-100 text-indigo-600 p-2 rounded-lg">📅</span>
+              <span className="bg-fuchsia-100 text-fuchsia-600 p-2 rounded-lg">📅</span>
               When are you traveling?
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -214,7 +214,7 @@ export default function CreateTrip() {
                   min={today}
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="border border-slate-200 rounded-xl p-4 w-full bg-white shadow-sm text-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                  className="border border-slate-200 rounded-xl p-4 w-full bg-white shadow-sm text-lg outline-none transition-all focus:ring-2 focus:ring-fuchsia-500 cursor-pointer"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -224,12 +224,12 @@ export default function CreateTrip() {
                   min={startDate || today}
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="border border-slate-200 rounded-xl p-4 w-full bg-white shadow-sm text-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                  className="border border-slate-200 rounded-xl p-4 w-full bg-white shadow-sm text-lg outline-none transition-all focus:ring-2 focus:ring-fuchsia-500 cursor-pointer"
                 />
               </div>
             </div>
             {calculatedDays > 0 && (
-              <div className="mt-3 inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-bold border border-indigo-100">
+              <div className="mt-3 inline-flex items-center gap-2 bg-fuchsia-50 text-fuchsia-700 px-4 py-2 rounded-full text-sm font-bold border border-fuchsia-100">
                 🗓️ {calculatedDays} {calculatedDays === 1 ? 'day' : 'days'} trip
               </div>
             )}
@@ -238,7 +238,7 @@ export default function CreateTrip() {
           {/* Budget Selection */}
           <div>
             <h2 className="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
-              <span className="bg-green-100 text-green-600 p-2 rounded-lg">💰</span>
+              <span className="bg-amber-100 text-amber-600 p-2 rounded-lg">💰</span>
               What is your budget?
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-4">
@@ -250,8 +250,8 @@ export default function CreateTrip() {
                     onClick={() => handleInputChange("budget", item.title)}
                     className={`p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.02] ${
                       isSelected 
-                        ? "border-blue-600 bg-blue-50/50 shadow-md ring-4 ring-blue-500/10" 
-                        : "border-slate-100 hover:border-blue-300 hover:shadow-lg bg-white"
+                        ? "border-amber-500 bg-amber-50/50 shadow-md ring-4 ring-amber-500/10" 
+                        : "border-slate-100 hover:border-amber-300 hover:shadow-lg bg-white"
                     }`}
                   >
                     <div className="text-4xl mb-3 bg-white w-16 h-16 flex items-center justify-center rounded-xl shadow-sm border border-slate-50">{item.icon}</div>
@@ -266,7 +266,7 @@ export default function CreateTrip() {
           {/* Travelers Selection */}
           <div>
             <h2 className="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
-              <span className="bg-purple-100 text-purple-600 p-2 rounded-lg">🤝</span>
+              <span className="bg-emerald-100 text-emerald-600 p-2 rounded-lg">🤝</span>
               Who are you traveling with?
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-4">
@@ -278,8 +278,8 @@ export default function CreateTrip() {
                     onClick={() => handleInputChange("companions", item.people)}
                     className={`p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.02] ${
                       isSelected 
-                        ? "border-blue-600 bg-blue-50/50 shadow-md ring-4 ring-blue-500/10" 
-                        : "border-slate-100 hover:border-blue-300 hover:shadow-lg bg-white"
+                        ? "border-emerald-500 bg-emerald-50/50 shadow-md ring-4 ring-emerald-500/10" 
+                        : "border-slate-100 hover:border-emerald-300 hover:shadow-lg bg-white"
                     }`}
                   >
                     <div className="text-4xl mb-3 bg-white w-16 h-16 flex items-center justify-center rounded-xl shadow-sm border border-slate-50">{item.icon}</div>
@@ -298,7 +298,7 @@ export default function CreateTrip() {
           <Button 
             disabled={loading} 
             onClick={onGenerateTrip}
-            className="w-full sm:w-auto px-12 py-7 text-lg font-bold rounded-2xl shadow-xl shadow-blue-600/20 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:shadow-2xl hover:-translate-y-1 transition-all"
+            className="w-full sm:w-auto px-12 py-7 text-lg font-bold rounded-xl shadow-xl shadow-indigo-500/20 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white hover:brightness-110 hover:shadow-2xl transition-all"
           >
             {loading ? (
               <>
