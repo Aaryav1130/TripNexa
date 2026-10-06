@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, Star, MapPin, Calendar, Users, IndianRupee, Zap, CreditCard, Search, ArrowRight } from "lucide-react";
+import { Sparkles, Star, MapPin, Calendar, Users, IndianRupee, ArrowRight, Umbrella, Heart, Backpack, Building2, Plane } from "lucide-react";
 
 const BACKGROUND_IMAGES = [
   { url: "/travel-bg-1.jpg", label: "📍 Swiss Alps" },
@@ -16,15 +16,17 @@ const PLACEHOLDER_EXAMPLES = [
 ];
 
 const SUGGESTION_CHIPS = [
-  "Weekend Getaway",
-  "Honeymoon",
-  "Solo",
-  "Family",
-  "Adventure",
-  "Budget"
+  { label: "Weekend Getaway", icon: Umbrella },
+  { label: "Honeymoon", icon: Heart },
+  { label: "Solo", icon: Backpack },
+  { label: "Family", icon: Users }
 ];
 
-const TABS = ["Itinerary", "Hotels", "Flights"];
+const TABS = [
+  { name: "Itinerary", icon: Sparkles },
+  { name: "Hotels", icon: Building2 },
+  { name: "Flights", icon: Plane }
+];
 
 const TRUST_RATING = 5;
 const TRUST_TRAVELERS_COUNT = "10,000+";
@@ -57,29 +59,36 @@ export default function Hero() {
 
   // Animated Placeholder Typing
   useEffect(() => {
-    if (isFocused || prompt.length > 0) return;
-    
-    const currentFullText = PLACEHOLDER_EXAMPLES[placeholderIndex];
-    let typingSpeed = isDeleting ? 30 : 70;
-
-    if (!isDeleting && placeholderText === currentFullText) {
-      typingSpeed = 2500;
-      setIsDeleting(true);
-    } else if (isDeleting && placeholderText === "") {
-      setIsDeleting(false);
-      setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDER_EXAMPLES.length);
-      typingSpeed = 500;
+    // Respect prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setPlaceholderText(PLACEHOLDER_EXAMPLES[0]);
+      return;
     }
 
-    const timeout = setTimeout(() => {
-      setPlaceholderText((prev) => 
-        isDeleting 
-          ? currentFullText.substring(0, prev.length - 1)
-          : currentFullText.substring(0, prev.length + 1)
-      );
-    }, typingSpeed);
+    if (isFocused || prompt.length > 0) return;
+    
+    const currentString = PLACEHOLDER_EXAMPLES[placeholderIndex];
+    let timeoutId;
 
-    return () => clearTimeout(timeout);
+    if (!isDeleting && placeholderText.length < currentString.length) {
+      timeoutId = setTimeout(() => {
+        setPlaceholderText(currentString.slice(0, placeholderText.length + 1));
+      }, 40);
+    } else if (!isDeleting && placeholderText.length === currentString.length) {
+      timeoutId = setTimeout(() => {
+        setIsDeleting(true);
+      }, 1500);
+    } else if (isDeleting && placeholderText.length > 0) {
+      timeoutId = setTimeout(() => {
+        setPlaceholderText(currentString.slice(0, placeholderText.length - 1));
+      }, 25);
+    } else if (isDeleting && placeholderText.length === 0) {
+      setIsDeleting(false);
+      setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDER_EXAMPLES.length);
+    }
+
+    return () => clearTimeout(timeoutId);
   }, [placeholderText, isDeleting, placeholderIndex, isFocused, prompt]);
 
   const handleSubmit = (e) => {
@@ -87,13 +96,12 @@ export default function Hero() {
     if (activeTab === "Itinerary") {
       navigate("/create-trip", { state: { prompt, destination, dates, travelers, budget } });
     } else {
-      // For now, other tabs just navigate to create-trip as well
       navigate("/create-trip");
     }
   };
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-slate-900 flex flex-col justify-between">
+    <div className="relative w-full min-h-screen overflow-hidden bg-slate-900 flex flex-col justify-center">
       
       {/* Background Slideshow */}
       {BACKGROUND_IMAGES.map((img, index) => (
@@ -106,11 +114,11 @@ export default function Hero() {
           <img
             src={img.url}
             alt="Travel Destination"
-            className={`w-full h-full object-cover ${index === currentImage ? "animate-ken-burns" : ""}`}
+            className={`w-full h-full object-cover motion-safe:animate-ken-burns ${index === currentImage ? "scale-100" : "scale-105"}`}
           />
           {/* Lighter overlay with bottom gradient */}
           <div className="absolute inset-0 bg-black/25"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
         </div>
       ))}
 
@@ -134,177 +142,163 @@ export default function Hero() {
       </div>
 
       {/* Main Content Area */}
-      <div className="relative z-10 flex-grow flex flex-col justify-center items-center text-center px-4 sm:px-6 pt-32 pb-12 w-full max-w-5xl mx-auto">
+      <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col items-center text-center px-4 sm:px-6 pt-16">
         
         {/* Subtle Badge */}
         <Link 
           to="/take-ai-help" 
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-6 animate-fade-in-up shadow-lg transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white text-xs font-medium mb-5 animate-fade-in-up shadow-lg transition-colors cursor-pointer"
         >
-          <Sparkles className="w-4 h-4 text-yellow-400" />
+          <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
           <span>Tripnexa AI 2.0 is now live</span>
-          <ArrowRight className="w-4 h-4 ml-1 opacity-70" />
+          <ArrowRight className="w-3.5 h-3.5 ml-1 opacity-70" />
         </Link>
 
         {/* Main Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 animate-fade-in-up delay-100 drop-shadow-lg">
-          Be inspired to experience{" "}
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-white mb-3 max-w-3xl animate-fade-in-up delay-100 drop-shadow-lg">
+          Your next trip,{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-md">
-            the world.
+            planned in seconds.
           </span>
         </h1>
 
+        {/* Subtitle */}
+        <p className="text-base md:text-lg text-gray-200 mb-8 max-w-xl animate-fade-in-up delay-200 drop-shadow-md">
+          AI-crafted itineraries, hotels and daily plans, all in one place.
+        </p>
+
         {/* Interactive Search Card */}
-        <div className="w-full mt-6 animate-fade-in-up delay-200">
+        <div className="w-full animate-fade-in-up delay-200">
           
           {/* Tabs */}
-          <div className="flex justify-center sm:justify-start gap-2 mb-3 px-2">
+          <div className="flex justify-start gap-2 mb-2 px-1">
             {TABS.map(tab => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-t-xl text-sm font-semibold transition-all ${
-                  activeTab === tab 
-                    ? "bg-white text-slate-900 shadow-[0_-4px_15px_rgba(255,255,255,0.1)]" 
-                    : "bg-white/10 text-white/80 hover:bg-white/20 backdrop-blur-sm"
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  activeTab === tab.name 
+                    ? "bg-white text-slate-900 shadow-md" 
+                    : "bg-white/10 text-white/80 hover:bg-white/15 backdrop-blur-sm"
                 }`}
               >
-                {tab}
+                <tab.icon className="w-3.5 h-3.5" />
+                {tab.name}
               </button>
             ))}
           </div>
 
           {/* Glassmorphism Card */}
-          <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-xl rounded-2xl rounded-tl-none p-4 sm:p-6 shadow-2xl border border-white/20 text-left">
-            
-            {/* AI Prompt Input Row */}
-            <div className="flex flex-col md:flex-row gap-4 mb-4">
-              <div className="relative flex-grow flex items-center">
-                <Sparkles className="absolute left-4 w-5 h-5 text-indigo-500" />
-                <textarea
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
-                  placeholder={isFocused || prompt ? "" : (activeTab === "Itinerary" ? placeholderText : `Search for ${activeTab.toLowerCase()}...`)}
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none resize-none h-[60px] text-slate-800 placeholder-slate-400 transition-all shadow-inner leading-relaxed overflow-hidden"
-                  rows="1"
-                  aria-label="Describe your trip"
-                />
-              </div>
-              <button 
-                type="submit"
-                className="relative overflow-hidden group flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-800 transition-all md:w-auto w-full shadow-lg hover:shadow-xl shrink-0"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[200%] group-hover:animate-[shimmer_2s_infinite]"></div>
-                <span>Generate {activeTab}</span> <Sparkles className="w-5 h-5 text-yellow-400" />
-              </button>
-            </div>
-
-            {/* Suggestion Chips */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-4 hide-scrollbar">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider shrink-0 mr-1">Suggestions:</span>
-              {SUGGESTION_CHIPS.map(chip => (
-                <button
-                  key={chip}
-                  type="button"
-                  onClick={() => {
-                    setPrompt(chip);
-                    setIsFocused(true);
-                  }}
-                  className="shrink-0 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-sm hover:bg-indigo-50 hover:text-indigo-600 transition-colors border border-slate-200"
+          <div className="p-[1.5px] rounded-2xl bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-yellow-300 shadow-2xl shadow-indigo-500/20">
+            <form onSubmit={handleSubmit} className="bg-slate-900/90 backdrop-blur-xl rounded-[15px] p-4 text-left">
+              
+              {/* AI Prompt Input Row */}
+              <div className="flex flex-col md:flex-row gap-3 mb-3">
+                <div className="relative flex-grow flex items-center">
+                  <Sparkles className="absolute left-3 w-4 h-4 text-indigo-300" />
+                  <input
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    placeholder={isFocused || prompt ? "" : (activeTab === "Itinerary" ? placeholderText : `Search for ${activeTab.toLowerCase()}...`)}
+                    className="w-full pl-9 pr-3 h-11 bg-white/5 border border-white/15 rounded-lg text-sm text-white placeholder-slate-300 focus:ring-2 focus:ring-indigo-400/60 focus:border-transparent outline-none transition-all shadow-inner"
+                    aria-label="Describe your trip"
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white h-11 px-5 rounded-lg font-semibold text-sm hover:brightness-110 transition-all md:w-auto w-full shadow-lg shrink-0"
                 >
-                  {chip}
+                  Generate {activeTab} <Sparkles className="w-4 h-4" />
                 </button>
-              ))}
-            </div>
+              </div>
 
-            <div className="h-px bg-slate-200 w-full mb-4"></div>
+              {/* Suggestion Chips */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-3 whitespace-nowrap hide-scrollbar">
+                {SUGGESTION_CHIPS.map(chip => (
+                  <button
+                    key={chip.label}
+                    type="button"
+                    onClick={() => {
+                      setPrompt(chip.label);
+                      setIsFocused(true);
+                    }}
+                    className="flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-full bg-white/10 text-slate-100 border border-white/10 hover:bg-white/20 transition-colors text-xs"
+                  >
+                    <chip.icon className="w-3.5 h-3.5 opacity-80" />
+                    {chip.label}
+                  </button>
+                ))}
+              </div>
 
-            {/* Quick Search Row (Optional) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input 
-                  type="text" 
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  placeholder="Where to?" 
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none text-slate-800"
-                />
+              <div className="h-px bg-white/10 w-full mb-3"></div>
+
+              {/* Quick Search Row */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                  <input 
+                    type="text" 
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                    placeholder="Where to?" 
+                    className="w-full pl-9 pr-3 h-10 bg-white/5 border border-white/15 rounded-lg text-sm text-white placeholder-slate-300 focus:ring-2 focus:ring-indigo-400/60 outline-none"
+                  />
+                </div>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                  <input 
+                    type="text" 
+                    value={dates}
+                    onChange={(e) => setDates(e.target.value)}
+                    placeholder="Dates" 
+                    className="w-full pl-9 pr-3 h-10 bg-white/5 border border-white/15 rounded-lg text-sm text-white placeholder-slate-300 focus:ring-2 focus:ring-indigo-400/60 outline-none"
+                  />
+                </div>
+                <div className="relative">
+                  <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                  <select 
+                    value={travelers}
+                    onChange={(e) => setTravelers(e.target.value)}
+                    className="w-full pl-9 pr-3 h-10 bg-white/5 border border-white/15 rounded-lg text-sm text-white focus:ring-2 focus:ring-indigo-400/60 outline-none appearance-none cursor-pointer"
+                  >
+                    <option value="" disabled className="text-slate-800">Travelers</option>
+                    <option value="1" className="text-slate-800">1 Traveler</option>
+                    <option value="2" className="text-slate-800">2 Travelers</option>
+                    <option value="3+" className="text-slate-800">3+ Travelers</option>
+                  </select>
+                </div>
+                <div className="relative">
+                  <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                  <input 
+                    type="text" 
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    placeholder="Budget (₹)" 
+                    className="w-full pl-9 pr-3 h-10 bg-white/5 border border-white/15 rounded-lg text-sm text-white placeholder-slate-300 focus:ring-2 focus:ring-indigo-400/60 outline-none"
+                  />
+                </div>
               </div>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input 
-                  type="text" 
-                  value={dates}
-                  onChange={(e) => setDates(e.target.value)}
-                  placeholder="Dates" 
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none text-slate-800"
-                />
-              </div>
-              <div className="relative">
-                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <select 
-                  value={travelers}
-                  onChange={(e) => setTravelers(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none text-slate-800 appearance-none cursor-pointer"
-                >
-                  <option value="" disabled>Travelers</option>
-                  <option value="1">1 Traveler</option>
-                  <option value="2">2 Travelers</option>
-                  <option value="3+">3+ Travelers</option>
-                </select>
-              </div>
-              <div className="relative">
-                <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input 
-                  type="text" 
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  placeholder="Budget (₹)" 
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none text-slate-800"
-                />
-              </div>
-            </div>
-            
-          </form>
+              
+            </form>
+          </div>
         </div>
+        
+        {/* Trust Strip */}
+        <div className="mt-5 text-xs text-slate-300/80 animate-fade-in-up delay-300 flex items-center justify-center">
+          Free to start &middot; No credit card required &middot;{" "}
+          <span className="flex text-yellow-400 mx-1">
+            {[...Array(TRUST_RATING)].map((_, i) => (
+              <Star key={i} className="w-3.5 h-3.5 fill-current" />
+            ))}
+          </span>
+          {" "}{TRUST_TRAVELERS_COUNT} travelers
+        </div>
+
       </div>
 
-      {/* Trust Strip (Normal Flow at Bottom) */}
-      <div className="relative z-10 w-full bg-slate-900/60 backdrop-blur-md border-t border-white/10 py-4 px-4 sm:px-8 mt-auto animate-fade-in-up delay-300">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300">
-          
-          {/* Key Benefits */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <div className="flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-yellow-400" />
-              <span>Free to start</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CreditCard className="w-4 h-4 text-emerald-400" />
-              <span>No credit card required</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Search className="w-4 h-4 text-blue-400" />
-              <span>Real-time prices</span>
-            </div>
-          </div>
-
-          {/* Social Proof */}
-          <div className="flex items-center gap-3 bg-white/5 rounded-full px-4 py-1.5 border border-white/10">
-            <div className="flex text-yellow-400">
-              {[...Array(TRUST_RATING)].map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 fill-current" />
-              ))}
-            </div>
-            <span className="text-xs font-semibold tracking-wide text-white/90">Trusted by {TRUST_TRAVELERS_COUNT} travelers</span>
-          </div>
-          
-        </div>
-      </div>
-      
       {/* Hide Scrollbar for Chips */}
       <style dangerouslySetInnerHTML={{__html: `
         .hide-scrollbar::-webkit-scrollbar { display: none; }
