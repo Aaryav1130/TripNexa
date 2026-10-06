@@ -147,15 +147,15 @@ export default function Hero() {
         {/* Subtle Badge */}
         <Link 
           to="/take-ai-help" 
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white text-xs font-medium mb-5 animate-fade-in-up shadow-lg transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-6 animate-fade-in-up shadow-lg transition-colors cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
+          <Sparkles className="w-4 h-4 text-yellow-400" />
           <span>Tripnexa AI 2.0 is now live</span>
-          <ArrowRight className="w-3.5 h-3.5 ml-1 opacity-70" />
+          <ArrowRight className="w-4 h-4 ml-1 opacity-70" />
         </Link>
 
         {/* Main Headline */}
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-white mb-3 max-w-3xl animate-fade-in-up delay-100 drop-shadow-lg">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white mb-4 max-w-4xl animate-fade-in-up delay-100 drop-shadow-lg">
           Your next trip,{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 drop-shadow-md">
             planned in seconds.
@@ -163,7 +163,7 @@ export default function Hero() {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base md:text-lg text-gray-200 mb-8 max-w-xl animate-fade-in-up delay-200 drop-shadow-md">
+        <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl animate-fade-in-up delay-200 drop-shadow-md font-medium">
           AI-crafted itineraries, hotels and daily plans, all in one place.
         </p>
 
