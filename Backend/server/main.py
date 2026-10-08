@@ -24,7 +24,7 @@ generation_config = {
     "max_output_tokens": 8192,
     "response_mime_type": "text/plain",
 }
-gemini_model = genai.GenerativeModel("gemini-flash-latest", generation_config=generation_config)
+gemini_model = genai.GenerativeModel("gemini-3.5-flash", generation_config=generation_config)
 
 app = FastAPI()
 

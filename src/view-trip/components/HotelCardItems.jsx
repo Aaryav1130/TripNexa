@@ -83,7 +83,7 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
         
         {/* Top Badge Overlay */}
         {index === 0 && (
-          <div className="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg z-10 flex items-center gap-1">
+          <div className="absolute top-0 left-0 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white text-xs font-bold px-3 py-1.5 rounded-br-lg z-10 flex items-center gap-1 shadow-sm">
             <Sparkles size={12}/> 2024 Award
           </div>
         )}
@@ -106,7 +106,7 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
         
         {/* Middle Section: Details */}
         <div className="p-4 sm:p-5 flex flex-col flex-grow border-b sm:border-b-0 sm:border-r border-slate-100 min-w-0">
-          <h2 className="text-xl font-extrabold text-slate-800 line-clamp-1 mb-1 group-hover:text-blue-600 transition-colors">
+          <h2 className="text-xl font-extrabold text-slate-800 line-clamp-1 mb-1 group-hover:text-indigo-600 transition-colors">
             {hotel?.hotelName}
           </h2>
           
@@ -117,7 +117,7 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
             ))}
           </div>
 
-          <div className="flex items-start gap-1.5 text-blue-600 font-medium text-sm mb-3">
+          <div className="flex items-start gap-1.5 text-indigo-600 font-medium text-sm mb-3">
             <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
             <h2 className="line-clamp-2 hover:underline">{hotel?.address}</h2>
           </div>
@@ -134,7 +134,7 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
             {hotel?.mockAmenities && hotel.mockAmenities.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-1">
                 {hotel.mockAmenities.slice(0, 3).map((amenity, i) => (
-                  <span key={i} className="text-[10px] bg-green-50 text-green-700 border border-green-200 px-1.5 py-0.5 rounded font-medium">
+                  <span key={i} className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded font-medium">
                     {amenity}
                   </span>
                 ))}
@@ -142,7 +142,7 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
             )}
             
             <div className="flex items-center gap-1 text-xs text-slate-500 font-medium mt-1">
-              <span className="text-blue-500 text-base leading-none">⛊</span> Agoda Preferred
+              <span className="text-indigo-500 text-base leading-none">⛊</span> Tripnexa Preferred
             </div>
           </div>
         </div>
@@ -154,39 +154,39 @@ export default function HotelCardItems({ hotel, index = 0, rawPrice = 0 }) {
           <div className="p-4 flex flex-col items-end text-right border-b border-slate-100">
             <div className="flex items-center gap-2 mb-1">
               <div className="flex flex-col">
-                <span className="text-blue-700 font-bold text-sm">
+                <span className="text-indigo-700 font-bold text-sm">
                   {parseFloat(hotel?.ratings) >= 4.5 ? 'Exceptional' : 'Very good'}
                 </span>
                 <span className="text-slate-500 text-xs">{reviewCount.toLocaleString()} reviews</span>
               </div>
-              <div className="bg-blue-700 text-white font-extrabold text-lg px-2 py-1 rounded-md rounded-tr-none shadow-sm">
+              <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white font-extrabold text-lg px-2.5 py-1 rounded-md rounded-tr-none shadow-sm border border-indigo-500/20">
                 {(parseFloat(hotel?.ratings) || 4.2).toFixed(1)}
               </div>
             </div>
-            <div className="text-xs font-bold text-slate-700">
+            <div className="text-xs font-bold text-slate-700 mt-0.5">
               {locationScore} Location score
             </div>
           </div>
 
           {/* Pricing Block */}
           <div className="p-4 flex flex-col items-end text-right mt-auto">
-              <div className="text-[10px] text-slate-500 mb-1">Per night before taxes and fees</div>
+              <div className="text-[10px] text-slate-500 mb-1 font-medium tracking-wide">PER NIGHT (TAXES INC.)</div>
               <div className="flex items-center gap-1.5">
-                <span className="text-sm text-slate-400 line-through decoration-red-500">
+                <span className="text-sm text-slate-400 line-through decoration-red-500 decoration-2">
                   Rs. {originalPrice.toLocaleString()}
                 </span>
-                <span className="bg-red-100 text-red-600 text-xs font-bold px-1 rounded">
+                <span className="bg-red-100 text-red-600 text-xs font-bold px-1.5 py-0.5 rounded">
                   -{discountPercent}%
                 </span>
               </div>
-              <div className="text-2xl font-extrabold text-red-600 leading-tight mb-2">
+              <div className="text-2xl font-extrabold text-slate-900 leading-tight mb-2 tracking-tight">
                 {discountedPrice}
               </div>
-              <div className="text-xs text-green-600 font-bold mt-1 flex items-center gap-1 mb-3">
-                <CheckCircle2 size={12}/> FREE CANCELLATION
+              <div className="text-[11px] text-emerald-600 font-bold mt-1 flex items-center gap-1 mb-3">
+                <CheckCircle2 size={14}/> FREE CANCELLATION
               </div>
               
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm shadow-md flex justify-center items-center gap-2">
+              <button className="w-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:brightness-110 text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-300 text-sm shadow-md shadow-indigo-500/20 hover:shadow-lg hover:-translate-y-0.5 flex justify-center items-center gap-2 border border-indigo-400/30">
                 View Deal
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </button>
